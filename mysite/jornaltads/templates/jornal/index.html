@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Jornal DSweb</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #666;
+            border-radius: 4px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .no-news {
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            {% block nav %}
+                <li><a href="{% url 'jornal:cadastro' %}">Cadastro</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'jornal:logout' %}">Sair</a></li>
+                {% else %}
+                    <li><a href="{% url 'jornal:login' %}">Entrar</a></li>
+                {% endif %}
+                <li><a href="{% url 'jornal:nova-noticia' %}">Criar Notícia</a></li>
+                <li><a href="{% url 'jornal:listar_edicoes' %}">Edições</a></li>
+            {% endblock %}
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% if noticias_recentes %}
+            {% for noticia in noticias_recentes %}
+                <h3>{{ noticia.edicao }}</h3>
+                <a href="{% url 'jornal:noticia_detalhe' noticia.id %}">{{ noticia.titulo }}</a>
+                <p>{{ noticia.texto_noticia }}</p>
+            {% endfor %}
+        {% else %}
+            <p class="no-news">Nenhuma notícia disponível.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

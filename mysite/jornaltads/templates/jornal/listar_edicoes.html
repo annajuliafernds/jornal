@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Edições - Jornal DSweb</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .edicao-link {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .edicao-link:hover {
+            background-color: #666;
+        }
+
+        .no-edicoes {
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edições</h1>
+        {% if edicoes %}
+            {% for edicao in edicoes %}
+                <a class="edicao-link" href="{% url 'jornal:listar_noticias' edicao.id %}">{{ edicao.titulo_edicao }}</a>
+            {% endfor %}
+        {% else %}
+            <p class="no-edicoes">Nenhuma edição disponível.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
